@@ -5689,7 +5689,13 @@ namespace DanpheEMR.Controllers
                         txnClient.TUId = GetTUID(_accountingDbContext, HospitalId);
                         txnClient.SectionId = payment.SectionId;
                         txnClient.IsReverseTxnAllow = false;
-                        if (EnableVoucherVerificationParam != null && Convert.ToBoolean(EnableVoucherVerificationParam.ParameterValue))
+
+						string input = txnClient.VoucherNumber;
+						string numberPart = input.Substring(input.LastIndexOf('-') + 1);
+						txnClient.VoucherSerialNo = int.Parse(numberPart);
+
+
+						if (EnableVoucherVerificationParam != null && Convert.ToBoolean(EnableVoucherVerificationParam.ParameterValue))
                         {
                             txnClient.Status = Enums.ENUM_ACC_VoucherStatus.Draft;
                         }
