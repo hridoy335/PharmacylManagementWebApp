@@ -5690,6 +5690,7 @@ namespace DanpheEMR.Controllers
                         txnClient.SectionId = payment.SectionId;
                         txnClient.IsReverseTxnAllow = false;
 
+                        // Added by roy 
 						string input = txnClient.VoucherNumber;
 						string numberPart = input.Substring(input.LastIndexOf('-') + 1);
 						txnClient.VoucherSerialNo = int.Parse(numberPart);
