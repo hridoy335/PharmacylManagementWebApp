@@ -793,7 +793,8 @@ namespace DanpheEMR.Controllers
                     cashTxn.TransactionType = ENUM_PHRM_EmpCashTxnTypes.CashSales;
                     cashTxn.IsActive = true;
                     cashTxn.FiscalYearId = currentFiscalYearId;
-                    empCashTxns.Add(cashTxn);
+					cashTxn.InAmount = invoiceDataFromClient.TotalAmount;
+					empCashTxns.Add(cashTxn);
 
                 });
             }
@@ -810,6 +811,7 @@ namespace DanpheEMR.Controllers
                     cashTxn.TransactionType = ENUM_PHRM_EmpCashTxnTypes.CashSales;
                     cashTxn.IsActive = true;
                     cashTxn.FiscalYearId = currentFiscalYearId;
+                    cashTxn.InAmount = invoiceDataFromClient.TotalAmount;
                     empCashTxns.Add(cashTxn);
 
                 });

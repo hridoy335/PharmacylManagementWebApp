@@ -1090,7 +1090,7 @@ export class NewSalesComponent implements OnInit, OnDestroy {
       let ex: Error = exception;
       this.routeFromService.RouteFrom = null;
       this.messageboxService.showMessage(ENUM_MessageBox_Status.Error, ["Check error in Console log !"]);
-      console.log("Error Messsage =>  " + ex.message);
+      //console.log("Error Messsage =>  " + ex.message);
     }
   }
 
