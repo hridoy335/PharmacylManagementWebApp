@@ -1,10 +1,9 @@
-import { Component, Input, Output, EventEmitter, HostListener, ChangeDetectorRef } from '@angular/core';
-import { SecurityService } from "../../../security/shared/security.service";
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 import { CoreService } from '../../../core/shared/core.service';
+import { SecurityService } from "../../../security/shared/security.service";
 import { MessageboxService } from '../../../shared/messagebox/messagebox.service';
-import { MaternityBLService } from '../../shared/maternity.bl.service';
-import * as moment from 'moment/moment';
 import { MaternityANCModel } from '../../shared/maternity-anc.model';
+import { MaternityBLService } from '../../shared/maternity.bl.service';
 
 
 @Component({
@@ -33,6 +32,8 @@ export class MaternityANCComponent {
   ) {
 
   }
+
+
 
   ngOnInit() {
     this.patientANCList = [];

@@ -615,8 +615,8 @@ export enum ENUM_DischargeSummaryDisplayLabels {
   Consultants = "<strong> Consultants : </strong>"
 }
 export enum ENUM_CalendarTypes {
-    English = "en",
-    Nepali = "np"
+  English = "en",
+  Nepali = "np"
 }
 
 export enum ENUM_SSF_BookingStatus {
