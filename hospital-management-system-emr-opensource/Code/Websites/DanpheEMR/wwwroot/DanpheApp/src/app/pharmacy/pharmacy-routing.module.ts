@@ -93,6 +93,7 @@ import { StockLedgerReportComponent } from './report/stock-ledger-report/stock-l
 import { PHRMStockSummaryReportComponent } from './report/stock-summary/phrm-stock-summary-report.component';
 import { SupplierWisePurchaseReportComponent } from './report/supplierwise-purchase-report/supplierwise-purchase-report.component';
 import { CreditOrganizationListComponent } from './setting/credit-organization/phrm-credit-organizations-list.component';
+import { LeafsettingComponent } from './setting/leafsetting/leafsetting.component';
 import { PHRMPackingTypeListComponent } from './setting/packing-type/phrm-packing-type-list.component';
 import { WriteOffItemComponent } from './store/write-off/write-off-item/write-off-item.component';
 import { WriteOffListComponent } from './store/write-off/write-off-list/write-off-list.component';
@@ -236,6 +237,7 @@ import { SupplierLedgerComponent } from './supplier-ledger/supplier-ledger.compo
                   { path: 'RackAllocation', component: PhrmRackAllocationComponent }
                 ]
               },
+              { path: 'LeafSetting', component: LeafsettingComponent },
               { path: 'Dispensary', component: PHRMDispensaryManageComponent },
               { path: 'CreditOrganizations', component: CreditOrganizationListComponent },
               { path: 'TermsList/:id', component: TermsListComponent },

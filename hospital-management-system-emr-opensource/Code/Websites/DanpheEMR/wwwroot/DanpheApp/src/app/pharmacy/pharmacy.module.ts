@@ -139,6 +139,7 @@ import { PHRMSettlementComponent } from './sale/settlement/settlement.component'
 import { CreditOrganizationListComponent } from './setting/credit-organization/phrm-credit-organizations-list.component';
 import { PHRMDispensaryManageComponent } from "./setting/dispensary/phrm-dispensary-manage.component";
 import { PHRMUpdateExpiryDateandBatchNoComponent } from './setting/expiry-batch/phrm-update-exp-batch.component ';
+import { LeafsettingComponent } from './setting/leafsetting/leafsetting.component';
 import { PHRMStoreMainComponent } from './store/phrm-store-main.component';
 import { PHRMSalesDetailsListComponent } from './store/sales-category/phrm-sales-category-list.component';
 import { PhrmIncomingStockListComponent } from './store/store-details/incoming-stock/phrm-incoming-stock-list.component';
@@ -313,7 +314,8 @@ import { WardRequisitionItems } from './ward-requisition/phrm-ward-requisition.c
     PhrmRackMainComponent,
     PhrmRackAllocationComponent,
     SubstoreRequisitionDispatchMainComponent,
-    ItemWiseWardSupplyReportComponent
+    ItemWiseWardSupplyReportComponent,
+    LeafsettingComponent
 
 
   ],

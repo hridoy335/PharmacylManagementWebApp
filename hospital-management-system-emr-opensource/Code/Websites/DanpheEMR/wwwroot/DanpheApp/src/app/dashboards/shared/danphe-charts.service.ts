@@ -11,8 +11,8 @@ s.no.     user/date             changes          description/remarks
 ------------------------------------------------------------
 */
 
-import { Injectable } from '@angular/core';
 import { AmChartsService } from "@amcharts/amcharts3-angular";
+import { Injectable } from '@angular/core';
 import { CoreService } from "../../core/shared/core.service";
 //DON't Import Jquery In here, it brings un-necessary issues like : node_modules coming inside compiled-js, CompileOnSave stops working, etc..
 //if needed, jquery should be included from systemjs in similar manner to that of 'lodash'
