@@ -8,9 +8,9 @@ export default class PHRMGridColumns {
 
 
     constructor(private _securityService: SecurityService,
-        ) {
+    ) {
         PHRMGridColumns.securityService = this._securityService;
-       
+
     }
     static GenericList = [
         { headerName: "Generic Name", field: "GenericName", width: 120 },
@@ -1136,4 +1136,24 @@ export default class PHRMGridColumns {
         { headerName: "TotalAmount", field: "TotalAmount", width: 150 }
 
     ]
+
+    // LeafSetting collum added by hridoy
+    static PHRMLeafSettingList = [
+        { headerName: "LeafType", field: "Name", width: 100 },
+        { headerName: "TotalNumber", field: "SubCategory", width: 100 },
+        { headerName: "Action", field: "", width: 100, cellRenderer: PHRMGridColumns.ShowActionforPHRMLeafSettingSetting },
+    ]
+
+    static ShowActionforPHRMLeafSettingSetting(params) {
+        if (params.data.IsActive == true) {
+            let template =
+                `
+                    <a danphe-grid-action="edit" class="grid-action">Edit</a>                    
+                `
+            return template
+        }
+    }
+
+
+
 }

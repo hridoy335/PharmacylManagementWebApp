@@ -42,6 +42,8 @@ import { DispensaryService } from "./dispensary/shared/dispensary.service";
 import { DynamicReportComponent } from "./dynamic-report/dynamic-report.component";
 import { EmployeeService } from "./employee/shared/employee.service";
 import { PatientsDLService } from "./patients/shared/patients.dl.service";
+import { LeadSettingEndPoint } from "./pharmacy/setting/leafsetting/leafsetting.endpoint";
+import { LeafSettingService } from "./pharmacy/setting/leafsetting/leafsettingService";
 import { ActivateInventoryGuardService } from "./shared/activate-inventory/activate-inventory-guard.service";
 import { ActivateInventoryComponent } from "./shared/activate-inventory/activate-inventory.component";
 import { ActivateInventoryEndpoint } from "./shared/activate-inventory/activate-inventory.endpoint";
@@ -79,7 +81,9 @@ import { ActivateBillingCounterService } from "./utilities/shared/activate-billi
     ClaimManagementDLService,
     ClaimManagementBLService,
     ActivateBillingCounterGuardService,
-    ActivateBillingCounterService
+    ActivateBillingCounterService,
+    LeafSettingService,
+    LeadSettingEndPoint
   ],
   imports: [
     BrowserModule,
