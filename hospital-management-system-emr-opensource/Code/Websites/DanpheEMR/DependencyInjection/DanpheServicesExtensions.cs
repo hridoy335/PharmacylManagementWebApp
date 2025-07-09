@@ -11,6 +11,7 @@ using DanpheEMR.Services.LIS;
 using DanpheEMR.Services.MarketingReferral;
 using DanpheEMR.Services.Maternity;
 using DanpheEMR.Services.Medicare;
+using DanpheEMR.Services.Pharmacy.LeafSetting;
 using DanpheEMR.Services.Pharmacy.PharmacyPO;
 using DanpheEMR.Services.Pharmacy.Rack;
 using DanpheEMR.Services.Pharmacy.SupplierLedger;
@@ -73,6 +74,8 @@ namespace DanpheEMR.DependencyInjection
             services.AddTransient<IMarketingReferralService, MarketingReferralService>();
             services.AddTransient<IProvisionalDischargeService, ProvisionalDischargeService>();
             services.AddTransient<IDynamicTemplateService, DynamicTemplateService>();
+
+            services.AddTransient<ILeafSettingService, LeafSettingService>();
             return services;
         }
     }

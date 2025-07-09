@@ -563,6 +563,7 @@
     <Compile Include="PharmacyModels\PHRMUnitOfMeasurementModel.cs" />
     <Compile Include="PharmacyModels\PHRMWriteOffItemsModel.cs" />
     <Compile Include="PharmacyModels\PHRMWriteOffModel.cs" />
+    <Compile Include="PharmacyModels\PHRM_LeafSetting.cs" />
     <Compile Include="PharmacyModels\PHRM_MAP_ItemToRack.cs" />
     <Compile Include="PharmacyModels\PHRM_MAP_MstItemsPriceCategory.cs" />
     <Compile Include="PharmacyModels\Provisional\PHRMTransactionProvisionalReturnItemsModel.cs" />

@@ -256,6 +256,7 @@
 	  <Folder Include="Controllers\DispensaryTransfer\" />
 	  <Folder Include="Controllers\Settings\NewFolder\" />
 	  <Folder Include="Services\Pharmacy\DashBoard\" />
+	  <Folder Include="Services\Pharmacy\NewFolder\" />
   </ItemGroup>
 
   <ItemGroup>

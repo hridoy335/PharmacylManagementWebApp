@@ -119,6 +119,8 @@ namespace DanpheEMR.DalLayer
         public DbSet<EmployeeRoleModel> EmployeeRoles { get; set; }
         public DbSet<PHRMTransactionProvisionalReturnItemsModel> ProvisionalReturnItems { get; set; }
 
+        public DbSet<PHRM_LeafSetting> LeadSetting { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -212,6 +214,8 @@ namespace DanpheEMR.DalLayer
             modelBuilder.Entity<PharmacyVerificationModel>().ToTable("PHRM_TXN_Verification");
             modelBuilder.Entity<EmployeeRoleModel>().ToTable("EMP_EmployeeRole");
             modelBuilder.Entity<PHRMTransactionProvisionalReturnItemsModel>().ToTable("PHRM_TXN_ProvisionalReturnItems");
+
+            modelBuilder.Entity<PHRM_LeafSetting>().ToTable("PHRM_MST_LeafSetting");
 
 
 

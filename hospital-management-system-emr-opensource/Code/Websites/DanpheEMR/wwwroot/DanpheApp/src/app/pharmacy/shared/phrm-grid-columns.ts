@@ -1139,8 +1139,8 @@ export default class PHRMGridColumns {
 
     // LeafSetting collum added by hridoy
     static PHRMLeafSettingList = [
-        { headerName: "LeafType", field: "Name", width: 100 },
-        { headerName: "TotalNumber", field: "SubCategory", width: 100 },
+        { headerName: "LeafType", field: "LeafType", width: 100 },
+        { headerName: "TotalNumber", field: "TotalNumber", width: 100 },
         { headerName: "Action", field: "", width: 100, cellRenderer: PHRMGridColumns.ShowActionforPHRMLeafSettingSetting },
     ]
 

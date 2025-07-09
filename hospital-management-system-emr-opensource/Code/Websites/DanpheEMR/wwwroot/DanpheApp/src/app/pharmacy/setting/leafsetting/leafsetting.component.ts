@@ -72,15 +72,18 @@ export class LeafsettingComponent implements OnInit {
   public getLeafsettingList() {
     this.leafsettingService.GetAllLeafSettingList()
       .subscribe(res => {
-        if (res.Status == "OK") {
-          this.leafsettingList = res.Results;
-          this.leafsettingList = this.leafsettingList.slice();
-          console.log(res);
-        }
-        else {
-          alert("Failed ! " + res.ErrorMessage);
-          console.log(res.ErrorMessage)
-        }
+        console.log(res);
+        this.leafsettingList = res;
+        this.leafsettingList = this.leafsettingList.slice();
+        // if (res.Status == "OK") {
+        //   this.leafsettingList = res.Results;
+        //   this.leafsettingList = this.leafsettingList.slice();
+        //   console.log(res);
+        // }
+        // else {
+        //   alert("Failed ! " + res.ErrorMessage);
+        //   console.log(res.ErrorMessage)
+        // }
       });
   }
 

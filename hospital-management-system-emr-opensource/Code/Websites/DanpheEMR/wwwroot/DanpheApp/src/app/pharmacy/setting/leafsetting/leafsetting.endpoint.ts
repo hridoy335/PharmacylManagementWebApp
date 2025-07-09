@@ -7,11 +7,13 @@ export class LeadSettingEndPoint {
     options = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
     constructor(public http: HttpClient) {
-        this.baseUrl = '/api/Dispensary/';
+        //this.baseUrl = '/api/Dispensary/'; 
+        this.baseUrl = '/api/PHRMLeafSetting/';
     }
 
     GetAllLeafSettingList() {
-        return this.http.get<any>(`${this.baseUrl}Dispensaries`);
+        return this.http.get<any>(`${this.baseUrl}GetAllLeafSetting`);
+        //return this.http.get<any>(`${this.baseUrl}Dispensaries`);
     }
     //   GetDispensaryById(dispensaryId: number) {
     //     return this.http.get<any>(`${this.baseUrl}GetDispensary?dispensaryId=${dispensaryId}`)

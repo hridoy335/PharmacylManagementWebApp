@@ -33,6 +33,7 @@ export class LeafSettingService {
                     if (res.Status == "OK")
                         this.leafsettingList = res.Results
                     return res;
+
                 });
     }
 
