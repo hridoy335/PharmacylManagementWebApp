@@ -54,8 +54,27 @@ namespace DanpheEMR.Controllers.Pharmacy
         [HttpGet("GetAllLeafSetting")]
         public IActionResult GetAll()
         {
-            var d= leafSettingService.GetAllLeafSetting();
-            return Ok(leafSettingService.GetAllLeafSetting());
+            var result = leafSettingService.GetAllLeafSetting();
+
+
+            if (result != null)
+            {
+                return Ok(new
+                {
+                    Status = "OK",
+                    Results = result
+                });
+            }
+            else
+            {
+                return Ok(new
+                {
+                    Status = "Failed",
+                    ErrorMessage = "Insert operation did not succeed."
+                });
+            }
+
+           // return Ok(leafSettingService.GetAllLeafSetting());
 
         }
 
@@ -89,6 +108,7 @@ namespace DanpheEMR.Controllers.Pharmacy
 
         // POST api/values
         [HttpPost]
+        [Route("InsertLeafSettingInfo")]
         public IActionResult InsertLeafSettingInfo([FromBody] PHRM_LeafSetting value)
         {
             var currentUser = HttpContext.Session.Get<RbacUser>("currentuser");
@@ -98,7 +118,26 @@ namespace DanpheEMR.Controllers.Pharmacy
             {
                 return BadRequest(ModelState);
             }
-            return Ok(leafSettingService.InsertLeafSettingInfo(value));
+            //return Ok(leafSettingService.InsertLeafSettingInfo(value));
+
+            var result = leafSettingService.InsertLeafSettingInfo(value);
+
+            if (result != null && result.LeafSettingId > 0)
+            {
+                return Ok(new
+                {
+                    Status = "OK",
+                    Results = result
+                });
+            }
+            else
+            {
+                return Ok(new
+                {
+                    Status = "Failed",
+                    ErrorMessage = "Insert operation did not succeed."
+                });
+            }
         }
 
         //// PUT api/values/5

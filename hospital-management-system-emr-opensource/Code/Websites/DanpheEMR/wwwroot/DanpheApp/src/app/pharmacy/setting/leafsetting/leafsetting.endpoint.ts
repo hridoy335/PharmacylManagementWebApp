@@ -1,5 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import * as _ from 'lodash';
+import { PhrmLeafSettingModel } from '../../shared/phrm-leafsetting';
 
 @Injectable()
 export class LeadSettingEndPoint {
@@ -18,9 +20,18 @@ export class LeadSettingEndPoint {
     //   GetDispensaryById(dispensaryId: number) {
     //     return this.http.get<any>(`${this.baseUrl}GetDispensary?dispensaryId=${dispensaryId}`)
     //   }
-    //   AddDispensary(dispensary: PHRMStoreModel) {
-    //     return this.http.post<any>(`${this.baseUrl}NewDispensary`, dispensary, this.options);
-    //   }
+    InsertLeafSettingInfo(leafsetting: PhrmLeafSettingModel) {
+        debugger;
+        // return this.http.post<any>(`${this.baseUrl}InsertLeafSettingInfo`, leafsetting);
+        let temp = _.omit(leafsetting, ['LeafSetting']);  // REMOVE Angular FormGroup
+        return this.http.post<any>(`${this.baseUrl}InsertLeafSettingInfo`, leafsetting, {
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+    }
+
+
+
     //   UpdateDispensary(dispensary: PHRMStoreModel) {
     //     return this.http.put<any>(`${this.baseUrl}PutDispensary`, dispensary, this.options);
     //   }

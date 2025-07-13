@@ -60,10 +60,15 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-md-5">TotalNumber<b>:</b></label>
+                <label class="control-label col-md-5">TotalNumber<sup>*</sup><b>:</b></label>
                 <div class="col-md-7">
                   <input class="form-control" type="number" maxlength="6" id="leafSettingTotalNumber" [(ngModel)]="CurrentLeafSetting.TotalNumber"
-                         [ngModelOptions]="{standalone: true}" value="" placeholder="Enter TotalNumber" (keyup.enter)="setFocusById('label')" />
+                         formControlName="TotalNumber" value="" placeholder="Enter TotalNumber"
+                         (keyup.enter)="setFocusById('label')" />
+
+                  <span class="color-red font-sm"
+                        [hidden]="CurrentLeafSetting.IsValidCheck('TotalNumber','required') || !(CurrentLeafSetting.IsDirty('TotalNumber'))">LeafSetting
+                    TotalNumber is required</span>
                 </div>
               </div>
               <div class="form-group">
@@ -81,8 +86,10 @@
                 </div>
               </div>
               <div class="form-actions">
-                <input type="button" class="btn primary-btn" *ngIf="!update" id="btn_Save" class="btn green btn-success" (click)="Add()"
-                       value="Add" />
+                <!-- <input type="button" class="btn primary-btn" *ngIf="!update" id="btn_Save" class="btn green btn-success" (click)="Add()"
+                       value="Add" /> -->
+                <input type="button" class="btn btn-success primary-btn" *ngIf="!update" id="btn_Save" (click)="Add()" value="Add" />
+
                 <input type="button" class="btn primary-btn" *ngIf="update" id="btn_Save" class="btn green btn-success" (click)="Update()"
                        value="Update" />
               </div>

@@ -1,5 +1,6 @@
 
 import { Injectable } from '@angular/core';
+import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { PhrmLeafSettingModel } from '../../shared/phrm-leafsetting';
 import { LeadSettingEndPoint } from './leafsetting.endpoint';
@@ -35,6 +36,21 @@ export class LeafSettingService {
                     return res;
 
                 });
+    }
+
+    AddLeafSetting(leafsetting: PhrmLeafSettingModel) {
+        debugger;
+        var temp = _.omit(leafsetting, ['LeafSetting']);
+        temp = JSON.stringify(temp);
+        console.log(temp);
+        return this.leafsettingendpoint.InsertLeafSettingInfo(temp)
+            .map(res => { return res })
+            .do(res => {
+                console.log(res);
+                if (res.Status == "OK")
+                    this.leafsettingList.push(res.Results)
+                return res;
+            });
     }
 
 }

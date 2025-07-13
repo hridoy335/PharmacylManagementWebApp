@@ -64,17 +64,14 @@ namespace DanpheEMR.Services.Pharmacy.LeafSetting
             db.LeadSetting.Add(model);
             db.SaveChanges();
             var result = new PHRM_LeafSetting()
-            {
-                LeafSettingId = model.LeafSettingId,
-                //RackNo = model.RackNo,
-                //ParentRackNo = (from rack in db.PHRMRack
-                //                where rack.RackId == model.ParentId
-                //                select rack.RackNo).FirstOrDefault(),
-                //ParentId = model.ParentId,
-                //StoreId = model.StoreId,
-                //Description = model.Description,
-                CreatedBy = model.CreatedBy,
-                CreatedOn = model.CreatedOn,
+            { 
+                 LeafSettingId = (from SL in db.LeadSetting
+                                where SL.LeafType == model.LeafType
+                                select SL.LeafSettingId).FirstOrDefault(),
+                 TotalNumber = model.TotalNumber,
+                 LeafType = model.LeafType,
+                 CreatedBy = model.CreatedBy,
+                 CreatedOn = model.CreatedOn,
             };
             return result;
         }

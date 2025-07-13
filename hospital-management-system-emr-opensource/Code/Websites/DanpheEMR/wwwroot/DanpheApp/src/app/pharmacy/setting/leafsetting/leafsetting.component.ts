@@ -1,5 +1,8 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, Renderer2 } from '@angular/core';
+import * as moment from 'moment';
+import { SecurityService } from '../../../security/shared/security.service';
 import { GridEmitModel } from "../../../shared/danphe-grid/grid-emit.model";
+import { MessageboxService } from '../../../shared/messagebox/messagebox.service';
 import PHRMGridColumns from '../../shared/phrm-grid-columns';
 import { PhrmLeafSettingModel } from '../../shared/phrm-leafsetting';
 import { LeafSettingService } from './leafsettingService';
@@ -19,12 +22,16 @@ export class LeafsettingComponent implements OnInit {
   public showLeafSettingAddPage: boolean = false;
   public update: boolean = false;
   public index: number;
-  renderer2: any;
   ESCAPE_KEYCODE: any;
   leafsettingGridColumns: ({ headerName: string; field: string; width: number; cellStyle?: undefined; cellRenderer?: undefined; } | { headerName: string; field: string; width: number; cellStyle: (params: any) => { 'text-transform': string; }; cellRenderer?: undefined; } | { headerName: string; field: string; width: number; cellRenderer: (params: any) => string; cellStyle?: undefined; })[];
+  CurrentLeafSetting: PhrmLeafSettingModel;
+  // securityService: any;
 
   constructor(public changeDetector: ChangeDetectorRef,
     public leafsettingService: LeafSettingService,
+    public securityService: SecurityService,
+    public msgBoxServ: MessageboxService,
+    public renderer2: Renderer2
   ) {
 
     this.getLeafsettingList();
@@ -34,11 +41,13 @@ export class LeafsettingComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.globalListenFunc = this.renderer2.listen('document', 'keydown', e => {
-    //   if (e.keyCode == this.ESCAPE_KEYCODE) {
-    //     this.Close()
-    //   }
-    // });
+    this.update = false;
+    this.globalListenFunc = this.renderer2.listen('document', 'keydown', e => {
+      if (e.keyCode == this.ESCAPE_KEYCODE) {
+        this.Close()
+      }
+    });
+    this.getLeafsettingList();
 
   }
 
@@ -57,11 +66,21 @@ export class LeafsettingComponent implements OnInit {
       }
     }, 50)
   }
+  // AddLeafSetting() {
+  //   this.update = false;
+  //   this.showLeafSettingAddPage = false;
+  //   this.changeDetector.detectChanges();
+  //   this.CurrentLeafsetting = new PhrmLeafSettingModel();
+  //   this.showLeafSettingAddPage = true;
+  //   //.setFocusById('leafSettingLeftType');
+
+  // }
+
   AddLeafSetting() {
-    this.showLeafSettingAddPage = false;
+    this.CurrentLeafSetting = new PhrmLeafSettingModel(); // ✅ creates form group
+    this.update = false;
     this.changeDetector.detectChanges();
     this.showLeafSettingAddPage = true;
-    this.setFocusById('leafSettingLeftType');
   }
   Close() {
     this.CurrentLeafsetting = new PhrmLeafSettingModel();
@@ -72,52 +91,52 @@ export class LeafsettingComponent implements OnInit {
   public getLeafsettingList() {
     this.leafsettingService.GetAllLeafSettingList()
       .subscribe(res => {
-        console.log(res);
-        this.leafsettingList = res;
-        this.leafsettingList = this.leafsettingList.slice();
-        // if (res.Status == "OK") {
-        //   this.leafsettingList = res.Results;
-        //   this.leafsettingList = this.leafsettingList.slice();
-        //   console.log(res);
-        // }
-        // else {
-        //   alert("Failed ! " + res.ErrorMessage);
-        //   console.log(res.ErrorMessage)
-        // }
+        // console.log(res);
+        // this.leafsettingList = res;
+        // this.leafsettingList = this.leafsettingList.slice();
+        if (res.Status == "OK") {
+          this.leafsettingList = res.Results;
+          this.leafsettingList = this.leafsettingList.slice();
+          console.log(res);
+        }
+        else {
+          alert("Failed ! " + res.ErrorMessage);
+          //console.log(res.ErrorMessage)
+        }
       });
   }
 
 
-
   Add() {
-    // for (var i in this.CurrentLeafSetting .StoreValidator.controls) {
-    //   this.CurrentLeafSetting .StoreValidator.controls[i].markAsDirty();
-    //   this.CurrentLeafSetting .StoreValidator.controls[i].updateValueAndValidity();
-    // }
-    // if (this.CurrentLeafSetting .StoreValidator.valid) {
-    //   this.CurrentLeafSetting .CreatedBy = this.securityService.GetLoggedInUser().EmployeeId;
-    //   this.CurrentLeafSetting .CreatedOn = moment().format('YYYY-MM-DD HH:mm:ss');
-    //   this.CurrentLeafSetting .IsActive = true;
-    //   this.dispensaryService.AddDispensary(this.CurrentLeafSetting )
-    //     .subscribe(
-    //       res => {
-    //         if (res.Status == "OK") {
-    //           this.msgBoxServ.showMessage("success", ["Dispensary Added."]);
-    //           this.AddNewStorePermissionToClientSide(this.CurrentLeafSetting );
-    //           this.CallBackAddUpdate(res)
-    //           this.CurrentLeafSetting  = new PHRMStoreModel();
-    //         }
-    //         else {
-    //           this.msgBoxServ.showMessage("error", ["Something Wrong" + res.ErrorMessage]);
-    //         }
-    //       },
-    //       err => {
-    //         this.msgBoxServ.showMessage("error", ["Something Wrong" + err.ErrorMessage]);
-    //       });
-    // }
+    debugger;
+    console.log(this.CurrentLeafSetting.LeafSetting);
+    if (this.CurrentLeafSetting.LeafSetting.valid) {
+      this.CurrentLeafSetting.CreatedBy = this.securityService.GetLoggedInUser().EmployeeId;
+      this.CurrentLeafSetting.CreatedOn = moment().format('YYYY-MM-DD HH:mm:ss');
+      this.CurrentLeafSetting.IsActive = true;
+
+      console.log(this.CurrentLeafSetting);
+      this.leafsettingService.AddLeafSetting(this.CurrentLeafSetting)
+        .subscribe(
+          res => {
+            console.log(res);
+            if (res.Status == "OK") {
+              this.msgBoxServ.showMessage("success", ["LeafSetting Added."]);
+              this.CurrentLeafSetting = new PhrmLeafSettingModel();
+              close();
+            }
+            else {
+              this.msgBoxServ.showMessage("error", ["Something Wrong" + res.ErrorMessage]);
+            }
+          },
+          err => {
+            this.msgBoxServ.showMessage("error", ["Something Wrong" + err.ErrorMessage]);
+          });
+    }
   }
 
   Update() {
+
     // for (var i in this.CurrentLeafSetting .StoreValidator.controls) {
     //   this.CurrentLeafSetting .StoreValidator.controls[i].markAsDirty();
     //   this.CurrentLeafSetting .StoreValidator.controls[i].updateValueAndValidity();

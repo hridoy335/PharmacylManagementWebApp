@@ -283,7 +283,6 @@ namespace DanpheEMR
 
             string isDevEnv = Configuration["environment:isdevelopment"];
 
-
             if (bool.Parse(isDevEnv))//env.IsDevelopment build it only if it's development.
             {
                 var provider = new PhysicalFileProvider(
