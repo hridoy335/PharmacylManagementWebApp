@@ -39,19 +39,28 @@ export class LeafSettingService {
     }
 
     AddLeafSetting(leafsetting: PhrmLeafSettingModel) {
-        debugger;
         var temp = _.omit(leafsetting, ['LeafSetting']);
         temp = JSON.stringify(temp);
         console.log(temp);
         return this.leafsettingendpoint.InsertLeafSettingInfo(temp)
             .map(res => { return res })
             .do(res => {
-                console.log(res);
                 if (res.Status == "OK")
                     this.leafsettingList.push(res.Results)
                 return res;
             });
     }
-
+    UpdateLeafSetting(leafsetting: PhrmLeafSettingModel) {
+        var temp = _.omit(leafsetting, ['LeafSetting']);
+        temp = JSON.stringify(temp);
+        console.log(temp);
+        return this.leafsettingendpoint.UpdateLeafSetting(temp)
+            .map(res => { return res })
+            .do(res => {
+                if (res.Status == "OK")
+                    this.leafsettingList.push(res.Results)
+                return res;
+            });
+    }
 }
 

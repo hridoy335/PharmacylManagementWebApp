@@ -11,5 +11,6 @@ namespace DanpheEMR.Services.Pharmacy.LeafSetting
         List<PHRMLeafSetting> GetAllLeafSetting();
         PHRMLeafSetting GetLeafSettingById(int leafSettingId);
         PHRM_LeafSetting InsertLeafSettingInfo(PHRM_LeafSetting model); 
+        PHRM_LeafSetting UpdateLeafSettingInfo(PHRM_LeafSetting model); 
     }
 }

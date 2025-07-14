@@ -16,6 +16,8 @@ import { LeafSettingService } from './leafsettingService';
 
 export class LeafsettingComponent implements OnInit {
   public CurrentLeafsetting: PhrmLeafSettingModel = new PhrmLeafSettingModel();
+
+  public CurrentLeafSetting: PhrmLeafSettingModel = new PhrmLeafSettingModel();
   public leafsettingList: Array<PhrmLeafSettingModel> = new Array<PhrmLeafSettingModel>();
   public showLeafsettingList: boolean = true;
   public globalListenFunc: Function;
@@ -24,7 +26,8 @@ export class LeafsettingComponent implements OnInit {
   public index: number;
   ESCAPE_KEYCODE: any;
   leafsettingGridColumns: ({ headerName: string; field: string; width: number; cellStyle?: undefined; cellRenderer?: undefined; } | { headerName: string; field: string; width: number; cellStyle: (params: any) => { 'text-transform': string; }; cellRenderer?: undefined; } | { headerName: string; field: string; width: number; cellRenderer: (params: any) => string; cellStyle?: undefined; })[];
-  CurrentLeafSetting: PhrmLeafSettingModel;
+  // CurrentLeafSetting: PhrmLeafSettingModel;
+  public selectedItem: PhrmLeafSettingModel = new PhrmLeafSettingModel();
   // securityService: any;
 
   constructor(public changeDetector: ChangeDetectorRef,
@@ -77,7 +80,7 @@ export class LeafsettingComponent implements OnInit {
   // }
 
   AddLeafSetting() {
-    this.CurrentLeafSetting = new PhrmLeafSettingModel(); // ✅ creates form group
+    this.CurrentLeafsetting = new PhrmLeafSettingModel(); // ✅ creates form group
     this.update = false;
     this.changeDetector.detectChanges();
     this.showLeafSettingAddPage = true;
@@ -91,9 +94,6 @@ export class LeafsettingComponent implements OnInit {
   public getLeafsettingList() {
     this.leafsettingService.GetAllLeafSettingList()
       .subscribe(res => {
-        // console.log(res);
-        // this.leafsettingList = res;
-        // this.leafsettingList = this.leafsettingList.slice();
         if (res.Status == "OK") {
           this.leafsettingList = res.Results;
           this.leafsettingList = this.leafsettingList.slice();
@@ -101,28 +101,32 @@ export class LeafsettingComponent implements OnInit {
         }
         else {
           alert("Failed ! " + res.ErrorMessage);
-          //console.log(res.ErrorMessage)
         }
       });
   }
 
 
   Add() {
-    debugger;
-    console.log(this.CurrentLeafSetting.LeafSetting);
     if (this.CurrentLeafSetting.LeafSetting.valid) {
       this.CurrentLeafSetting.CreatedBy = this.securityService.GetLoggedInUser().EmployeeId;
       this.CurrentLeafSetting.CreatedOn = moment().format('YYYY-MM-DD HH:mm:ss');
       this.CurrentLeafSetting.IsActive = true;
 
-      console.log(this.CurrentLeafSetting);
       this.leafsettingService.AddLeafSetting(this.CurrentLeafSetting)
         .subscribe(
           res => {
-            console.log(res);
             if (res.Status == "OK") {
               this.msgBoxServ.showMessage("success", ["LeafSetting Added."]);
+              //this.CurrentLeafSetting = new PhrmLeafSettingModel();
+
+              const newRow = {
+                ...res.Results,
+                IsActive: true // ensure required fields exist
+              };
+              this.leafsettingList = [...this.leafsettingList, newRow];
+
               this.CurrentLeafSetting = new PhrmLeafSettingModel();
+              this.showLeafSettingAddPage = false;
               close();
             }
             else {
@@ -136,61 +140,113 @@ export class LeafsettingComponent implements OnInit {
   }
 
   Update() {
-
-    // for (var i in this.CurrentLeafSetting .StoreValidator.controls) {
-    //   this.CurrentLeafSetting .StoreValidator.controls[i].markAsDirty();
-    //   this.CurrentLeafSetting .StoreValidator.controls[i].updateValueAndValidity();
-    // }
-    // if (this.CurrentLeafSetting .StoreValidator.valid) {
-    //   this.CurrentLeafSetting .CreatedBy = this.securityService.GetLoggedInUser().EmployeeId;
-    //   this.CurrentLeafSetting .CreatedOn = moment().format('YYYY-MM-DD HH:mm:ss');
-    //   this.dispensaryService.UpdateDispensary(this.CurrentLeafSetting )
-    //     .subscribe(
-    //       res => {
-    //         if (res.Status == "OK") {
-    //           this.msgBoxServ.showMessage("success", ['Dispensary Details Updated.']);
-    //           this.CallBackAddUpdate(res)
-    //           this.CurrentLeafSetting  = new PHRMStoreModel();
-    //         }
-    //         else {
-    //           this.msgBoxServ.showMessage("failed", ["Something Wrong " + res.ErrorMessage]);
-    //         }
-    //       },
-    //       err => {
-    //         this.msgBoxServ.showMessage("error", ["Something Wrong " + err.ErrorMessage]);
-    //       });
-    // }
+    if (this.CurrentLeafSetting.LeafSetting.valid) {
+      this.CurrentLeafSetting.CreatedBy = this.securityService.GetLoggedInUser().EmployeeId;
+      this.CurrentLeafSetting.CreatedOn = moment().format('YYYY-MM-DD HH:mm:ss');
+      this.leafsettingService.UpdateLeafSetting(this.CurrentLeafSetting)
+        .subscribe(
+          res => {
+            if (res.Status == "OK") {
+              this.msgBoxServ.showMessage("success", ['LeafSetting Details Updated.']);
+              this.CallBackAddUpdate(res)
+              this.CurrentLeafSetting = new PhrmLeafSettingModel();
+            }
+            else {
+              this.msgBoxServ.showMessage("failed", ["Something Wrong " + res.ErrorMessage]);
+            }
+          },
+          err => {
+            this.msgBoxServ.showMessage("error", ["Something Wrong " + err.ErrorMessage]);
+          });
+    }
   }
+
+  CallBackAddUpdate(res) {
+    if (res.Status === "OK") {
+      // if (this.index != null) {
+      //   // ✅ Replace only the edited row
+      //   this.leafsettingList[this.index] = res.Results;
+
+      //   // ✅ Force grid to refresh
+      //   this.leafsettingList = [...this.leafsettingList];
+      // }
+      const updatedRow = {
+        ...res.Results,
+        IsActive: res.Results.IsActive != null ? res.Results.IsActive : true
+      };
+      if (this.index != null) {
+        // ✅ Replace the updated row at its index
+        this.leafsettingList[this.index] = updatedRow;
+      } else {
+        // ✅ Optional: if no index, treat it as a new add
+        this.leafsettingList = [...this.leafsettingList, updatedRow];
+      }
+
+      // ✅ Force grid to re-render with new data and keep action buttons
+      this.leafsettingList = [...this.leafsettingList];
+      // ✅ Reset states
+      this.changeDetector.detectChanges();
+      this.showLeafSettingAddPage = false;
+      this.selectedItem = null;
+      this.index = null;
+    } else {
+      this.msgBoxServ.showMessage("error", ['Some error: ' + res.ErrorMessage]);
+    }
+  }
+
+
 
   leafsettingGridActions($event: GridEmitModel) {
     switch ($event.Action) {
+      // case "edit": {
+      //   this.selectedItem = null;
+      //   this.update = true;
+      //   this.index = $event.RowIndex;
+      //   this.showLeafSettingAddPage = false;
+      //   this.changeDetector.detectChanges();
+      //   this.selectedItem = $event.Data;
+      //   // this.CurrentLeafSetting.LeafSettingId = this.selectedItem.LeafSettingId;
+      //   this.CurrentLeafSetting.LeafType = this.selectedItem.LeafType;
+      //   this.showLeafSettingAddPage = true;
+      //   console.log(this.selectedItem);
+      //   break;
+      // }
+
       case "edit": {
-        // this.selectedItem = null;
+        this.selectedItem = null;
         this.update = true;
-        // this.index = $event.RowIndex;
-        // this.showDispensaryAddPage = false;
-        // this.changeDetector.detectChanges();
-        // this.selectedItem = $event.Data;
-        // this.CurrentLeafsetting.StoreId = this.selectedItem.StoreId;
-        // this.CurrentLeafsetting.Name = this.selectedItem.Name;
+        this.index = $event.RowIndex;
+        this.showLeafSettingAddPage = false;
+        this.changeDetector.detectChanges();
+
+        this.selectedItem = $event.Data;
+
+
+
+        this.CurrentLeafSetting.LeafSettingId = this.selectedItem.LeafSettingId;
+        this.CurrentLeafSetting.LeafType = this.selectedItem.LeafType;
+        this.CurrentLeafSetting.TotalNumber = this.selectedItem.TotalNumber;
+        this.CurrentLeafSetting.IsActive = this.selectedItem.IsActive;
+
 
         this.showLeafSettingAddPage = true;
         break;
       }
-      case "activateDeactivateIsActive": {
-        if ($event.Data != null) {
-          // this.selectedItem = null;
-          // this.selectedItem = $event.Data;
-          // this.ActivateDeactivateStatus(this.selectedItem);
-          // this.selectedItem = null;
-        }
-        break;
-      }
-      case "showPaymentModes": {
-        // this.selectedItem = $event.Data;
-        // this.openPaymentModesPopUp();
-        break;
-      }
+
+      // case "activateDeactivateIsActive": {
+      //   if ($event.Data != null) {
+      //     // this.selectedItem = null;
+      //     // this.selectedItem = $event.Data;
+      //     // this.ActivateDeactivateStatus(this.selectedItem);
+      //     // this.selectedItem = null;
+      //   }
+      //   break;
+      // }
+      // case "showPaymentModes": {
+      //   // this.selectedItem = $event.Data;
+      //   // this.openPaymentModesPopUp();
+      //   break;
+      // }
       default:
         break;
     }

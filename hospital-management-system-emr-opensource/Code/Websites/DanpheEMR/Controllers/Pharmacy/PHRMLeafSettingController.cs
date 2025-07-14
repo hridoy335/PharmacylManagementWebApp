@@ -140,19 +140,33 @@ namespace DanpheEMR.Controllers.Pharmacy
             }
         }
 
-        //// PUT api/values/5
-        //[HttpPut("{id}")]
-        //public IActionResult Put(int id, [FromBody] RackViewModel value)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-        //    value.RackId = id;
-        //    rackService.UpdateRack(value);
-        //    return Ok(rackService.GetRack(id));
-
-        //}
+        // PUT api/values/5
+        [HttpPut]
+        [Route("UpdateLeafSetting")]
+        public IActionResult UpdateLeafSetting( [FromBody] PHRM_LeafSetting value)  
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = leafSettingService.UpdateLeafSettingInfo(value);
+            if (result != null && result.LeafSettingId > 0)
+            {
+                return Ok(new
+                {
+                    Status = "OK",
+                    Results = result
+                });
+            }
+            else
+            {
+                return Ok(new
+                {
+                    Status = "Failed",
+                    ErrorMessage = "Update operation did not succeed."
+                });
+            }
+        }
 
         //// DELETE api/values/5
         //[HttpDelete("{id}")]

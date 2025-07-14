@@ -21,7 +21,6 @@ export class LeadSettingEndPoint {
     //     return this.http.get<any>(`${this.baseUrl}GetDispensary?dispensaryId=${dispensaryId}`)
     //   }
     InsertLeafSettingInfo(leafsetting: PhrmLeafSettingModel) {
-        debugger;
         // return this.http.post<any>(`${this.baseUrl}InsertLeafSettingInfo`, leafsetting);
         let temp = _.omit(leafsetting, ['LeafSetting']);  // REMOVE Angular FormGroup
         return this.http.post<any>(`${this.baseUrl}InsertLeafSettingInfo`, leafsetting, {
@@ -29,7 +28,11 @@ export class LeadSettingEndPoint {
         });
 
     }
-
+    UpdateLeafSetting(leafsetting: PhrmLeafSettingModel) {
+        return this.http.put<any>(`${this.baseUrl}UpdateLeafSetting`, leafsetting, {
+            headers: { 'Content-Type': 'application/json' }
+        });
+    }
 
 
     //   UpdateDispensary(dispensary: PHRMStoreModel) {
