@@ -220,6 +220,11 @@ export class PharmacyBLService {
     return this.pharmacyDLService.GetUnitOfMeasurementList()
       .map(res => { return res });
   }
+  public GetBoxSizeList() {
+    return this.pharmacyDLService.GetBoxSizeList()
+      .map(res => { return res });
+  }
+
   //GET: setting-item manage : list of items
   public GetItemList() {
     return this.pharmacyDLService.GetItemList()

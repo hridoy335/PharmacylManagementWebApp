@@ -37,6 +37,9 @@ export class PHRMItemMasterModel {
     public GovtInsurancePrice: number;
     public GenericName: string;
     public UOMName: string;
+
+    public LeafSettingId: number = 0;
+    public LeafType: string = null;
     public PurchaseRate: number = 0;
     public SalesRate: number = 0;
     public PurchaseDiscount: number = 0;

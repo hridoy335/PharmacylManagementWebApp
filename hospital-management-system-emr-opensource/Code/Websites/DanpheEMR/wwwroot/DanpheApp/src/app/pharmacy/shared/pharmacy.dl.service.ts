@@ -127,6 +127,11 @@ export class PharmacyDLService {
   public GetUnitOfMeasurementList() {
     return this.http.get<any>("/api/PharmacySettings/UnitOfMeasurements");
   }
+  public GetBoxSizeList() {
+    return this.http.get<any>("/api/PHRMLeafSetting/GetAllLeafSetting");
+  }
+
+
   //GET: setting-item manage : list of items
   public GetItemList() {
     return this.http.get<any>("/api/PharmacySettings/ItemsWithAllDetails");

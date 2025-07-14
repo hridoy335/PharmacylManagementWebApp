@@ -209,6 +209,26 @@
                       </div>
                     </div>
                   </div>
+
+                  <div class="form-group">
+                    <div class="row no-margin">
+                      <label class="control-label col-md-4">Box Size<b>:</b></label>
+                      <div class="col-md-8 div-relative">
+                        <input danphe-auto-complete onClick="this.setSelectionRange(0, this.value.length)" id="boxSize"
+                               [(ngModel)]="selBoxSize" [source]="boxSizeList" placeholder="Box Size"
+                               formControlName="boxSize" display-property-name="LeafType" value-property-name="LeafSettingId"
+                               (valueChanged)="AssignSelectedBoxSize()" [list-formatter]="boxSizeListFormatter" max-num-list="8"
+                               style="width: 100%;" />
+                      </div>
+                    </div>
+                  </div>
+
+
+
+
+
+
+
                   <div class="form-group">
                     <div class="row no-margin">
                       <label class="control-label col-md-4">Generic Name<sup>*</sup><b>:</b></label>

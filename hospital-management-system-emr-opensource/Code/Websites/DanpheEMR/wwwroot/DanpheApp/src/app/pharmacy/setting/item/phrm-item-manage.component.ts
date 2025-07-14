@@ -18,6 +18,7 @@ import { PHRMGenericModel } from '../../shared/phrm-generic.model';
 import { PHRMItemMasterModel } from "../../shared/phrm-item-master.model";
 import { PHRMItemTypeModel } from "../../shared/phrm-item-type.model";
 import { PHRM_MAP_MstItemsPriceCategory } from "../../shared/phrm-items-price-category-map";
+import { PhrmLeafSettingModel } from '../../shared/phrm-leafsetting';
 import { PHRMPackingTypeModel } from "../../shared/phrm-packing-type.model";
 import { PHRMSalesCategoryModel } from "../../shared/phrm-sales-category.model";
 import { PHRMSupplierModel } from "../../shared/phrm-supplier.model";
@@ -51,6 +52,8 @@ export class PHRMItemMasterManageComponent implements OnDestroy {
   public supplierList: Array<PHRMSupplierModel> = new Array<PHRMSupplierModel>();
   public itemtypeList: Array<PHRMItemTypeModel> = new Array<PHRMItemTypeModel>();
   public uomList: Array<PHRMUnitOfMeasurementModel> = new Array<PHRMUnitOfMeasurementModel>();
+
+  public boxSizeList: Array<PhrmLeafSettingModel> = new Array<PhrmLeafSettingModel>();
   public genericList: Array<PHRMGenericModel> = new Array<PHRMGenericModel>();
   phrmMapList: PHRMMapItemToRack[] = [];
   public item: Array<PHRMItemMasterModel> = new Array<PHRMItemMasterModel>();
@@ -76,7 +79,7 @@ export class PHRMItemMasterManageComponent implements OnDestroy {
   public selItemType: PHRMItemTypeModel;
   public selGenName: PHRMGenericModel;
   public selUOM: PHRMUnitOfMeasurementModel;
-
+  public selBoxSize: PhrmLeafSettingModel;
   //for show and hide packing features
   IsPkgitem: boolean = false;
   public selectedItemId: number = null;
@@ -131,6 +134,8 @@ export class PHRMItemMasterManageComponent implements OnDestroy {
     this.GetLocationList();
     this.GetParentList();
     this.GetAllRackList();
+    this.getBoxSize();
+
   }
   ngOnInit() {
     this.globalListenFunc = this.renderer2.listen('document', 'keydown', e => {
@@ -299,6 +304,24 @@ export class PHRMItemMasterManageComponent implements OnDestroy {
           this.msgBoxServ.showMessage(ENUM_MessageBox_Status.Failed, ["Something Wrong " + err.ErrorMessage]);
         });
   }
+  public getBoxSize() {
+    this.pharmacyBLService.GetBoxSizeList()
+      .subscribe((res: DanpheHTTPResponse) => {
+        if (res.Status == ENUM_DanpheHTTPResponses.OK) {
+          if (res.Results.length) {
+            this.boxSizeList = res.Results;
+          }
+        }
+        else {
+          this.msgBoxServ.showMessage(ENUM_MessageBox_Status.Failed, ["Something Wrong " + res.ErrorMessage]);
+        }
+      },
+        err => {
+          this.msgBoxServ.showMessage(ENUM_MessageBox_Status.Failed, ["Something Wrong " + err.ErrorMessage]);
+        });
+  }
+
+
   ItemGridActions($event: GridEmitModel) {
     switch ($event.Action) {
       case "edit": {
@@ -592,6 +615,7 @@ export class PHRMItemMasterManageComponent implements OnDestroy {
     this.selectedItem = null;
     this.selCategory = new PHRMSalesCategoryModel();
     this.selUOM = new PHRMUnitOfMeasurementModel();
+    this.selBoxSize = new PhrmLeafSettingModel();
     this.selItemType = new PHRMItemTypeModel();
     this.selGenName = new PHRMGenericModel();
     this.selCompany = new PHRMCompanyModel();
@@ -641,6 +665,19 @@ export class PHRMItemMasterManageComponent implements OnDestroy {
     }
   }
 
+  public AssignSelectedBoxSize() {
+    try {
+      if (this.selBoxSize.LeafSettingId) {
+        if ((this.selBoxSize.LeafSettingId != 0) && (this.selBoxSize.LeafSettingId != null)) {
+          // this.CurrentItem.LeafType = this.selBoxSize.LeafType;
+          this.CurrentItem.LeafSettingId = this.selBoxSize.LeafSettingId;
+        }
+      }
+    } catch (ex) {
+      this.ShowCatchErrMessage(ex);
+    }
+  }
+
   public ShowCatchErrMessage(exception) {
     if (exception) {
       let ex: Error = exception;
@@ -664,6 +701,15 @@ export class PHRMItemMasterManageComponent implements OnDestroy {
     }
     else {
       return data["UOMName"] + " |(<strong class='text-danger'>Deactivated)</strong>";
+    }
+  }
+
+  boxSizeListFormatter(data: any): string {
+    if (data.IsActive) {
+      return data["LeafType"];
+    }
+    else {
+      return data["LeafType"] + " |(<strong class='text-danger'>Deactivated)</strong>";
     }
   }
 
