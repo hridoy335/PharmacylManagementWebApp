@@ -114,7 +114,7 @@ namespace DanpheEMR.Controllers.Pharmacy
             var currentUser = HttpContext.Session.Get<RbacUser>("currentuser");
             value.CreatedBy = currentUser.EmployeeId.ToString();
             value.CreatedOn = DateTime.Now.ToString();
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid) 
             {
                 return BadRequest(ModelState);
             }
